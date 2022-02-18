@@ -1,6 +1,8 @@
 
 #include "calcuTradeInterval.h"
 
+#define LOG_CALCU (0)
+
 static inline void ymd_calcu_daysofyear(struct date_YMD_s *pymds, int *monthdays)
 {
     if (pymds->m == 1) {
@@ -24,9 +26,13 @@ int ymd_calcu(struct date_YMD_s *pymds, int size, char *leap)
         accu += mthday[n];
         mthdayAccu[n] = accu;
 
+        #if LOG_CALCU
         printf("%d. %d ", n, mthdayAccu[n]);
+        #endif
     }
+    #if LOG_CALCU
     printf("\n");
+    #endif
 
     mthday[1] += 1;
     accu = 0;
@@ -35,9 +41,13 @@ int ymd_calcu(struct date_YMD_s *pymds, int size, char *leap)
         accu += mthday[n];
         mthdayAccuLeap[n] = accu;
 
+        #if LOG_CALCU
         printf("%d. %d ", n, mthdayAccuLeap[n]);
+        #endif
     }
+    #if LOG_CALCU
     printf("\n");
+    #endif
 
     for (int n = 0; n < (size+1); n++) {
         pymd = &pymds[n];
@@ -155,7 +165,9 @@ int ymd_n_rand_calcu(struct date_YMD_s *pymds, int *rand, int size, char *leap)
 
         curday = pymds[n].daysofyear;
 
+        #if LOG_CALCU
         printf("%d. rand %d, %d year %d days \n", n, itval, pymds[n].y, pymds[n].daysofyear);
+        #endif
         
         if ((curday + itval) > totalDaysaYear) {
             nextyeardays = 0;
@@ -175,7 +187,9 @@ int ymd_n_rand_calcu(struct date_YMD_s *pymds, int *rand, int size, char *leap)
             pymds[n+1].daysofyear = pymds[n].daysofyear + itval;
         }
 
+        #if LOG_CALCU
         printf("    %d year %d days \n", pymds[n+1].y, pymds[n+1].daysofyear);
+        #endif
         
     }
 
@@ -186,9 +200,13 @@ int ymd_n_rand_calcu(struct date_YMD_s *pymds, int *rand, int size, char *leap)
         accu += mthday[n];
         mthdayAccu[n] = accu;
 
+        #if LOG_CALCU
         printf("%d. %d ", n, mthdayAccu[n]);
+        #endif
     }
+    #if LOG_CALCU
     printf("\n");
+    #endif
 
     mthday[1] += 1;
     accu = 0;
@@ -197,12 +215,18 @@ int ymd_n_rand_calcu(struct date_YMD_s *pymds, int *rand, int size, char *leap)
         accu += mthday[n];
         mthdayAccuLeap[n] = accu;
 
+        #if LOG_CALCU
         printf("%d. %d ", n, mthdayAccuLeap[n]);
+        #endif
     }
+    #if LOG_CALCU
     printf("\n");
+    #endif
     
     for (int n = 1; n < (size+1); n++) {
+        #if LOG_CALCU
         printf("setup %d year %d days \n", pymds[n].y, pymds[n].daysofyear);
+        #endif
         if (leap[(pymds[n].y - 1900) % 2000]) {
             ymd_calcu_mthday(&pymds[n], mthdayAccuLeap);
         } else {

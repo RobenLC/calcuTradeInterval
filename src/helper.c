@@ -1,6 +1,9 @@
 
 #include "helper.h"
 
+#define MEM_DUMP_EN (0)
+#define LOG_HELPER (0)
+
 int itval_dump(int *dat, int size)
 {
     int inc=0;
@@ -124,8 +127,10 @@ int itval_to_str(char *str, int *itval, int size)
         dst += len;
     }
 
+    #if MEM_DUMP_EN
     mem_dump(str, tot);
-
+    #endif
+    
     return tot;
 }
 
@@ -145,7 +150,9 @@ int rand_to_str(char *str, int *rand, int size)
         dst += len;
     }
 
+    #if MEM_DUMP_EN
     mem_dump(str, tot);
+    #endif
 
     return tot;
 }
@@ -171,7 +178,9 @@ int ymd_to_str(char *str, struct date_YMD_s *pymds, int size)
         dst += len;
     }
 
+    #if MEM_DUMP_EN
     mem_dump(str, tot);
+    #endif
 
     return tot;
 }
@@ -224,7 +233,7 @@ int file_to_rand(int *rand, FILE *f, int size)
 
 int file_to_ymds(struct date_YMD_s *pymds, FILE *f, int size)
 {
-    int len=0, ret=0, lenNum=0, ix=0;
+    int len=0, ret=0, ix=0;
     char *buf=0, *str;
     struct date_YMD_s *ymd=0;
     int *ymdint=0;
@@ -236,7 +245,10 @@ int file_to_ymds(struct date_YMD_s *pymds, FILE *f, int size)
     }
 
     len = ftell(f);
+
+    #if LOG_HELPER
     printf("file len of input file is %d \n", len);
+    #endif
 
     buf = malloc(len);
     memset(buf, 0, len);
@@ -248,14 +260,22 @@ int file_to_ymds(struct date_YMD_s *pymds, FILE *f, int size)
     }
 
     ret = fread(buf, 1, len, f);
+    #if LOG_HELPER
     printf("file read size %d ret: %d \n", len, ret);
+    #endif
 
+    #if MEM_DUMP_EN
     mem_dump(buf, len);
-
+    #endif
+    
     str = buf;
-
+    
+    #if LOG_HELPER
+    int lenNum=0;
     lenNum = atoi(str);
     printf("number of line: %d size: %d \n", lenNum, size);
+    #endif
+    
     while(ix < len) {
         ix++;
         if ((buf[ix] == 0x20) || (buf[ix] == '\n')) {
@@ -265,14 +285,17 @@ int file_to_ymds(struct date_YMD_s *pymds, FILE *f, int size)
     }
     
     for (int n = 0; n < size; n++) {
-
+        #if LOG_HELPER
         printf("%d \n", n);
+        #endif
         ymd = &pymds[n];
         ymdint = &ymd->y;
    
         for (int m = 0; m < 3; m++) {
             *ymdint = atoi(str);
+            #if LOG_HELPER
             printf("    %d.%d \n", m, *ymdint);
+            #endif
             
             while(ix < len) {
                 ix++;

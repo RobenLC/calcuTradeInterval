@@ -17,7 +17,5 @@ int rand_to_str(char *str, int *rand, int size);
 int ymd_to_str(char *str, struct date_YMD_s *pymds, int size);
 int file_to_rand(int *rand, FILE *f, int size);
 int file_to_ymds(struct date_YMD_s *pymds, FILE *f, int size);
-//int readfile(char *filename, uint8_t **data);
-//int print2file(char *filename, struct data_linklist_s *max32list, int size, uint16_t *last32);
 
 #endif
