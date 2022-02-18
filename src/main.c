@@ -40,6 +40,18 @@ int main(int argc, char *argv[])
                 if (len == 2) {
                     cnt++;
                     if (cnt >= argc) {
+                        if (inStr[1] == 'h') { /* help */
+                            printf("-m \n    set max range of random number \n");
+                            printf("-n \n    set total number of random number \n");
+                            printf("-s \n    set seed of random number \n");
+                            printf("-g \n    mode to produce sample of random number, \n    will produce interval if no input file, \n    will produce test sample if input file has interval information \n");
+                            printf("-i \n    path of input file \n");
+                            printf("-o \n    path of output file \n");
+                            printf("command example: \n    ./out/main.bin -g -o ./data/interval.txt -n 100 -s 1 -m 30 \n    ./out/main.bin -g -i ./data/interval.txt -o ./data/date.txt -n 100 -s 1 -m 30 \n");
+                            printf("    ./out/main.bin -i ./data/date.txt -o ./data/ans.txt -n 100 -s 1 -m 30");
+                        }
+
+                        modec = inStr[1];
                         break;
                     }
                     
@@ -97,12 +109,16 @@ int main(int argc, char *argv[])
         }        
     }
     else {
-        printf("need more parameters \n");
+        printf("need more parameters, please use -h to see the help \n");
         return 0;
     }
-
+    
+    #if LOG_MAIN
     printf("start %c\n", modec);
-    /* Leapyear mapping table start from 1900 1 1 */
+    #endif
+    /******************************************** 
+     *Leapyear mapping table start from 1900 1 1 
+     ********************************************/
     leapArry = (char *)malloc(sizeof(char) * 2000);
     memset(leapArry, 0, 2000);
 
@@ -110,6 +126,8 @@ int main(int argc, char *argv[])
     //leap_dump(leapArry, 2000);
                 
     switch(modec) {
+        case 'h':
+            break;
         case 'g':
             if (lenOut) {
                 if (fout > 0) {
