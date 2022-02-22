@@ -231,11 +231,11 @@ int file_to_rand(int *rand, FILE *f, int size)
     return 0;
 }
 
-int file_to_ymds(struct date_YMD_s *pymds, FILE *f, int size)
+int file_to_ymds(struct date_YMD_s **pymds, FILE *f, int *plen)
 {
     int len=0, ret=0, ix=0;
     char *buf=0, *str;
-    struct date_YMD_s *ymd=0;
+    struct date_YMD_s *ymd=0, *ymdMaloc=0;
     int *ymdint=0;
     
     ret = fseek(f, 0, SEEK_END);
@@ -270,11 +270,17 @@ int file_to_ymds(struct date_YMD_s *pymds, FILE *f, int size)
     
     str = buf;
     
-    #if LOG_HELPER
     int lenNum=0;
     lenNum = atoi(str);
-    printf("number of line: %d size: %d \n", lenNum, size);
-    #endif
+    *plen = lenNum - 1;
+    
+    printf("number of line: %d\n", lenNum);
+
+    ymdMaloc = (struct date_YMD_s *)malloc(sizeof(struct date_YMD_s) * lenNum);
+    if (!ymdMaloc) {
+        return -1;
+    }
+    *pymds = ymdMaloc;
     
     while(ix < len) {
         ix++;
@@ -284,11 +290,11 @@ int file_to_ymds(struct date_YMD_s *pymds, FILE *f, int size)
         }
     }
     
-    for (int n = 0; n < size; n++) {
+    for (int n = 0; n < lenNum; n++) {
         #if LOG_HELPER
         printf("%d \n", n);
         #endif
-        ymd = &pymds[n];
+        ymd = &ymdMaloc[n];
         ymdint = &ymd->y;
    
         for (int m = 0; m < 3; m++) {

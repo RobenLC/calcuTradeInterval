@@ -16,6 +16,6 @@ int itval_to_str(char *str, int *itval, int size);
 int rand_to_str(char *str, int *rand, int size);
 int ymd_to_str(char *str, struct date_YMD_s *pymds, int size);
 int file_to_rand(int *rand, FILE *f, int size);
-int file_to_ymds(struct date_YMD_s *pymds, FILE *f, int size);
+int file_to_ymds(struct date_YMD_s **pymds, FILE *f, int *plen);
 
 #endif

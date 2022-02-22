@@ -10,7 +10,7 @@
 #define LOG_MAIN (0)
 int main(int argc, char *argv[])
 {    
-    int cnt=0, len=0, lenIn=0, lenOut=0;
+    int cnt=0, len=0, lenIn=0, lenOut=0, ret=0;
     int seed=0, randNnm=0, randMax=100;
     char *inStr=0, *inParm=0;
     char destFilePath[128]={0}, inputFilePath[128]={0};
@@ -231,9 +231,13 @@ int main(int argc, char *argv[])
                 /************************************
                  * to get the peak interval from data 
                  ************************************/
-                pymd_s = (struct date_YMD_s *)malloc(sizeof(struct date_YMD_s) * (randNnm + 1));
+                //pymd_s = (struct date_YMD_s *)malloc(sizeof(struct date_YMD_s) * (randNnm + 1));
                 
-                file_to_ymds(pymd_s, fin, randNnm+1);
+                ret = file_to_ymds(&pymd_s, fin, &randNnm);
+                if (ret) {
+                    printf("Error file_to_ymds() ret: %d \n", ret);
+                    break;
+                }
 
                 ymd_calcu(pymd_s, randNnm, leapArry);
 
