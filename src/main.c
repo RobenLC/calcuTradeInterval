@@ -48,7 +48,7 @@ int main(int argc, char *argv[])
                             printf("-i \n    path of input file \n");
                             printf("-o \n    path of output file \n");
                             printf("\ncommand example: \n    ./out/main.bin -g -o ./data/interval.txt -n 100 -s 1 -m 30 \n    ./out/main.bin -g -i ./data/interval.txt -o ./data/date.txt -n 100 -s 1 -m 30 \n");
-                            printf("    ./out/main.bin -i ./data/date.txt -o ./data/ans.txt -n 100 -s 1 -m 30 \n\n");
+                            printf("    ./out/main.bin -i ./data/date.txt -o ./data/ans.txt \n\n");
                         }
 
                         modec = inStr[1];
